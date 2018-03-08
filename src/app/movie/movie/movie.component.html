@@ -1,0 +1,72 @@
+<div fxLayout="row" fxLayoutAlign="space-around center">
+	<mat-card fxFlex="70" class="card">
+		<mat-card-title>Create Movies</mat-card-title>
+
+		<mat-card-content>
+			<form class="example-form">
+
+				<mat-form-field class="full-width">
+					<input matInput placeholder="Title" [(ngModel)]="movie.title" name="movie">
+				</mat-form-field>
+
+				<mat-form-field class="full-width">
+					<input matInput placeholder="ReleaseDate" [(ngModel)]="movie.releaseDate" name="releaseDate">
+				</mat-form-field>
+
+				<mat-form-field class="full-width">
+					<input matInput placeholder="Language" [(ngModel)]="movie.language" name="language">
+				</mat-form-field>
+
+				<input type="file" ng2FileSelect [uploader]="uploader" />
+
+				<div *ngFor="let item of uploader.queue">
+					<button type="button" (click)="item.upload()" [disabled]="item.isReady || item.isUploading || item.isSuccess">Upload</button>
+					<button type="button" (click)="item.remove()">Remove</button>
+				</div>
+
+			</form>
+		</mat-card-content>
+		<mat-card-actions>
+			<button color="primary" mat-raised-button (click)="submit()">Submit</button>
+			<button color="accent" mat-raised-button (click)="resetForm()">Reset</button>
+		</mat-card-actions>
+	</mat-card>
+</div>
+
+<div fxLayout="row" fxLayoutAlign="space-around center">
+
+	<mat-card fxFlex="70" class="card">
+
+		<mat-card-title>Movies List</mat-card-title>
+
+		<mat-card-content>
+			<mat-list>
+				<mat-list-item *ngFor="let movie of movies; let i=index">
+
+					<img matListAvatar src="{{ staticUrl }}{{movie.poster}}" alt="...">
+					
+
+					<h3 matLine> {{movie.title}}
+
+						<mat-menu #appMenu="matMenu">
+							<button mat-menu-item (click)="update(movie)"> Update </button>
+							<button mat-menu-item (click)="remove(movie._id,i)"> Remove </button>
+						</mat-menu>
+
+						<button mat-icon-button [matMenuTriggerFor]="appMenu">
+							<mat-icon>more_vert</mat-icon>
+						</button>
+
+					</h3>
+
+					<p matLine>
+						<span> {{movie.releaseDate}} </span>
+						<span class="demo-2"> {{movie.language}} </span>
+					</p>
+
+				</mat-list-item>
+			</mat-list>
+		</mat-card-content>
+
+	</mat-card>
+</div>
